@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { InvoiceApp } from './InvoiceApp';
+import { CartApp } from './CartApp';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <InvoiceApp />
+        <CartApp />
     </React.StrictMode>
 )
