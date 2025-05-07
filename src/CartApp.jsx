@@ -3,19 +3,7 @@ import { ShoppingCart } from './components/ShoppingCart';
 
 import { useState } from "react"
 
-const initialCartItems = [
-    //  {
-    // product: {
-    //     id: 0,
-    //     name: '',
-    //     description: '',
-    //     price: 0
-
-    // },
-    // quantity: 0,
-    // total: 0
-    //}
-]
+const initialCartItems = sessionStorage.getItem('products') ? JSON.parse(sessionStorage.getItem('products')) : []
 export const CartApp = () => {
 
 

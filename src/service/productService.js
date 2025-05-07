@@ -7,5 +7,6 @@ export const getProduct = () => {
 }
 
 export const calculateTotal = (items) => {
-    items.reduce((acc, item) => acc + item.product.price * item.quantity, 0)
+
+    return items.reduce((acc, item) => acc + item.product.price * item.quantity, 0)
 }

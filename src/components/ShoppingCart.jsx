@@ -12,6 +12,7 @@ export const ShoppingCart = ({ items, handlerDeleteItem }) => {
         setTotal(
             calculateTotal(items)
         );
+        sessionStorage.setItem('products', JSON.stringify(items))
 
     }, [items])
 
