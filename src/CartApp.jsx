@@ -1,48 +1,33 @@
 import { CatalogView } from './components/CatalogView';
 import { ShoppingCart } from './components/ShoppingCart';
-
-import { useState } from "react"
+import { itemsReducer } from './reducer/ItemsReducer';
+import { useReducer,useEffect } from "react"
 
 const initialCartItems = sessionStorage.getItem('products') ? JSON.parse(sessionStorage.getItem('products')) : []
 export const CartApp = () => {
 
 
-    const [cartItems, setCartItems] = useState(initialCartItems)
+    const [cartItems, dispatch] = useReducer(itemsReducer, initialCartItems)
+
+
+    useEffect(() => {
+        sessionStorage.setItem('products', JSON.stringify(cartItems))
+    }, [cartItems])
+
 
     const handlerDeleteItem = (id, name, price, quantity) => {
-        const discardItemsDeleted = cartItems.filter(item => item.product.id !== id)
-        setCartItems(discardItemsDeleted)
+        console.log('ID Delete: '+id)
+        dispatch({ type: 'DeleteItem', payload: id })
     }
-
-
 
 
     const handlerAddItem = (item) => {
         const existItem = cartItems.find(cartItem => cartItem.product.id === item.id)
 
         if (existItem) {
-            const updateItem = cartItems.map(data => {
-                if (data.product.id === item.id) {
-                    const newQuantity = data.quantity + 1
-                    return {
-                        ...data,
-                        quantity: newQuantity,
-                        total: newQuantity * item.price
-                    }
-                }
-                return data
-
-            });
-            setCartItems(updateItem)
-
+            dispatch({ type: "UpdateItem", payload: item })
         } else {
-            setCartItems([...cartItems,
-            {
-                product: item,
-                quantity: 1,
-                total: item.price * 1
-            }]
-            )
+            dispatch({ type: "AddItem", payload: item })
         }
     }
 
@@ -51,7 +36,7 @@ export const CartApp = () => {
             <div className='container'>
                 <h1> Cart App</h1>
                 <CatalogView handler={product => handlerAddItem(product)} />
-
+                {console.log('TEST: '+cartItems.length)}
                 {cartItems.length > 0 && <div className="my-4 w-50">
                     <ShoppingCart items={cartItems} handlerDeleteItem={(id, name, price, quantity) => handlerDeleteItem(id, name, price, quantity)} />
                 </div>
